@@ -17,11 +17,11 @@ def read_qr_code(img):
 
 # Connect to MongoDB
 client = pymongo.MongoClient("mongodb://localhost:27017/")
-collection = client.local[sys.argv[1] if len(sys.argv) > 1 else "ECE"]
+collection = client.local[sys.argv[1] if len(sys.argv) > 1 else "ECE_col"]
 data = collection.find({})
 
 while True:
-    req = urllib.request.urlopen('http://192.168.1.19:8080/shot.jpg')
+    req = urllib.request.urlopen('http://100.94.242.25:8080//shot.jpg')
     arr = np.asarray(bytearray(req.read()), dtype=np.uint8)
     img = cv2.imdecode(arr, -1) # 'Load it as it is'
     value = read_qr_code(img)
@@ -29,7 +29,10 @@ while True:
         #cv2.imshow('random_title', img)
         #get the student name from the QR code
         print(value)
-        email = collection.find_one({"_id": ObjectId(value)})["email "]
-        print(email)
+        student = collection.find_one({"_id": ObjectId(value)})
+        if(student is not None):
+            collection.update_one({"_id": ObjectId(value)}, {"$set": {"present": True}})
+            print(f"bienvenue {student}")
+        
     else:
         pass

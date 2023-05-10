@@ -1,6 +1,7 @@
 import sys
 import qrcode
 from PIL import Image
+import os
 
 if(__name__ == '__main__'):
     
@@ -8,7 +9,7 @@ if(__name__ == '__main__'):
         print("Usage: python gen.py <id>")
         exit(-1)
 
-    logo_path = 'C:\\Users\\Yasser Mimouni\\OneDrive\\Desktop\\python script ece\\generate QR\\logo.jpg'
+    logo_path = './logo.jpg'
     logo = Image.open(logo_path)
     basewidth = 150
     # adjust image size
@@ -33,5 +34,7 @@ if(__name__ == '__main__'):
         (QRimg.size[1] - logo.size[1]) // 2)
     QRimg.paste(logo, pos)
     img_name = "qr_"+sys.argv[1]+".png"
-    QRimg.save('C:\\Users\\Yasser Mimouni\\OneDrive\\Desktop\\python script ece\\generate QR\\generated_qr\\'+img_name)
+    QRimg.save('./'+img_name)
+    #push to ece.surge.sh
+    os.system("surge generated_qr/ ece.surge.sh")
 

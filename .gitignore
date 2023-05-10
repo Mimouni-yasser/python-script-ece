@@ -1,3 +1,6 @@
 /generate_QR/generated_qr
-/data.xlsx
 /.vscode
+/*.xlsx
+*.pdf
+*.png
+
